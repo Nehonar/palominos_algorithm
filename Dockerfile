@@ -5,7 +5,7 @@ FROM golang:latest
 WORKDIR /app
 
 # Copy the Go module and sum files into the container at /app
-COPY backend/go.mod backend/go.sum ./
+COPY go.mod go.sum ./
 
 # Download the Go dependencies
 RUN go mod download
