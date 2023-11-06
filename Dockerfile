@@ -16,6 +16,9 @@ COPY backend/ .
 # Testing
 RUN go test ./...
 
+# Copy all files
+COPY . .
+
 # Build the Go app
 RUN go build -o /palominos_algorithm ./cmd/server/
 

@@ -11,6 +11,11 @@ import (
 func InitRoutes() {
 	router := mux.NewRouter()
 
+	// Static files from 'public' folder
+	staticFileDirectory := http.Dir("./public")
+	staticFileHandler := http.StripPrefix("/index", http.FileServer(staticFileDirectory))
+	router.PathPrefix("/index").Handler(staticFileHandler).Methods("GET")
+
 	// *** API routers ***
 	// Health check
 	router.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
