@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/nehonar/palominos_algortihm/backend/pkg/handlers"
+	"github.com/nehonar/palominos_algorithm/backend/pkg/handlers"
 )
 
 func main() {
-	handlers.HandelersRoute()
+	handlers.InitRoutes()
 }
