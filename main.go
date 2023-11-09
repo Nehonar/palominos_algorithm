@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	lambda "github.com/aws/aws-lambda-go/lambda"
 	"github.com/nehonar/palominos_algorithm/awsgo"
+	"github.com/nehonar/palominos_algorithm/handlers"
 	"github.com/nehonar/palominos_algorithm/models"
 	secretmanager "github.com/nehonar/palominos_algorithm/secret_manager"
 )
@@ -55,6 +56,21 @@ func lambdaStart(ctx context.Context, request events.APIGatewayProxyRequest) (*e
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("jwtSign"), SecretModel.JWTSign)
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("body"), request.Body)
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("bucketName"), os.Getenv("BucketName"))
+
+	respApi := handlers.Handlers(awsgo.Ctx, request)
+
+	if respApi.CustomResp != nil {
+		return respApi.CustomResp, nil
+	}
+
+	resp = &events.APIGatewayProxyResponse{
+		StatusCode: respApi.Status,
+		Body:       respApi.Message,
+		Headers: map[string]string{
+			"Content-Type": "application/json",
+		},
+	}
+	return resp, nil
 }
 
 func validateParams() bool {
