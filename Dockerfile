@@ -11,7 +11,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 # Copy the rest of the code into the container at /app
-COPY backend/ .
+COPY / .
 
 # Testing
 RUN go test ./...
@@ -20,7 +20,7 @@ RUN go test ./...
 COPY . .
 
 # Build the Go app
-RUN go build -o /palominos_algorithm ./cmd/server/
+RUN go build -o /palominos_algorithm ./
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
