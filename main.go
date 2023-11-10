@@ -7,7 +7,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	lambda "github.com/aws/aws-lambda-go/lambda"
-	"github.com/nehonar/palominos_algorithm/aws_go"
+	"github.com/nehonar/palominos_algorithm/awsGo"
 	"github.com/nehonar/palominos_algorithm/handlers"
 	"github.com/nehonar/palominos_algorithm/models"
 	secretmanager "github.com/nehonar/palominos_algorithm/secret_manager"
@@ -20,7 +20,7 @@ func main() {
 func lambdaStart(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var resp *events.APIGatewayProxyResponse
 
-	aws_go.AWSInit()
+	awsGo.AWSInit()
 
 	if !validateParams() {
 		resp = &events.APIGatewayProxyResponse{
@@ -47,17 +47,17 @@ func lambdaStart(ctx context.Context, request events.APIGatewayProxyRequest) (*e
 
 	path := strings.Replace(request.PathParameters["palominos_algorithm"], os.Getenv("UrlPrefix"), "", -1)
 
-	aws_go.Ctx = context.WithValue(aws_go.Ctx, models.Key("path"), path)
-	aws_go.Ctx = context.WithValue(aws_go.Ctx, models.Key("method"), request.HTTPMethod)
-	aws_go.Ctx = context.WithValue(aws_go.Ctx, models.Key("user"), SecretModel.UserName)
-	aws_go.Ctx = context.WithValue(aws_go.Ctx, models.Key("password"), SecretModel.Password)
-	aws_go.Ctx = context.WithValue(aws_go.Ctx, models.Key("host"), SecretModel.Host)
-	aws_go.Ctx = context.WithValue(aws_go.Ctx, models.Key("database"), SecretModel.Database)
-	aws_go.Ctx = context.WithValue(aws_go.Ctx, models.Key("jwtSign"), SecretModel.JWTSign)
-	aws_go.Ctx = context.WithValue(aws_go.Ctx, models.Key("body"), request.Body)
-	aws_go.Ctx = context.WithValue(aws_go.Ctx, models.Key("bucketName"), os.Getenv("BucketName"))
+	awsGo.Ctx = context.WithValue(awsGo.Ctx, models.Key("path"), path)
+	awsGo.Ctx = context.WithValue(awsGo.Ctx, models.Key("method"), request.HTTPMethod)
+	awsGo.Ctx = context.WithValue(awsGo.Ctx, models.Key("user"), SecretModel.UserName)
+	awsGo.Ctx = context.WithValue(awsGo.Ctx, models.Key("password"), SecretModel.Password)
+	awsGo.Ctx = context.WithValue(awsGo.Ctx, models.Key("host"), SecretModel.Host)
+	awsGo.Ctx = context.WithValue(awsGo.Ctx, models.Key("database"), SecretModel.Database)
+	awsGo.Ctx = context.WithValue(awsGo.Ctx, models.Key("jwtSign"), SecretModel.JWTSign)
+	awsGo.Ctx = context.WithValue(awsGo.Ctx, models.Key("body"), request.Body)
+	awsGo.Ctx = context.WithValue(awsGo.Ctx, models.Key("bucketName"), os.Getenv("BucketName"))
 
-	respApi := handlers.Handlers(aws_go.Ctx, request)
+	respApi := handlers.Handlers(awsGo.Ctx, request)
 
 	if respApi.CustomResp != nil {
 		return respApi.CustomResp, nil

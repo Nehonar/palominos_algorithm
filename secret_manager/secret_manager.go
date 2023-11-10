@@ -6,7 +6,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
-	"github.com/nehonar/palominos_algorithm/aws_go"
+	aws_go "github.com/nehonar/palominos_algorithm/awsGo"
 	"github.com/nehonar/palominos_algorithm/models"
 )
 
