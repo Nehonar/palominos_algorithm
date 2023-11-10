@@ -14,6 +14,8 @@ func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models
 	var resp models.ApiResponse
 	resp.Status = 400
 
+	isOK, statusCode, msg, claim := authorization(ctx, request)
+
 	switch ctx.Value(models.Key("method")).(string) {
 	case "POST":
 		switch ctx.Value(models.Key("path")).(string) {
@@ -24,4 +26,11 @@ func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models
 	resp.Message = "Invalid method"
 
 	return resp
+}
+
+func authorization(ctx context.Context, request events.APIGatewayProxyRequest) (bool, int, string, models.Claim) {
+	path := ctx.Value(models.Key("path")).(string)
+	if path == "uploadFile" {
+		return true, 200, "", models.Claim{}
+	}
 }
