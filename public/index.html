@@ -3,31 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subir Archivo CSV</title>
+    <title>Subir Archivo SQL</title>
 </head>
 <body>
-    <h1>Subir Archivo CSV</h1>
+    <h1>Subir Archivo SQL</h1>
     <form id="upload-form">
-        <input type="file" id="csvFile" accept=".csv" required />
+        <input type="file" id="sqlFile" accept=".sql" required />
         <button type="submit">Subir Archivo</button>
     </form>
+
+    <div id="results"></div>
 
     <script>
         document.getElementById('upload-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            var fileInput = document.getElementById('csvFile');
+            var fileInput = document.getElementById('sqlFile');
             var file = fileInput.files[0];
             var formData = new FormData();
             formData.append('file', file);
 
-            fetch('http://tuapi/donde/recibe/el/csv', {
+            fetch('http://tuapi/donde/recibe/el/sql', {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Error al subir el archivo:', error));
+            .then(data => {
+                console.log(data);
+                document.getElementById('results').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => console.error('Error upload file:', error));
         });
     </script>
 </body>
