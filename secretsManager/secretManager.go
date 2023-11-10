@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/services/secretmanager"
+	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
 	aws_go "github.com/nehonar/palominos_algorithm/awsGo"
 	"github.com/nehonar/palominos_algorithm/models"
 )
@@ -14,8 +14,8 @@ func GetSecret(secretName string) (models.Secret, error) {
 	var secretData models.Secret
 	fmt.Println("> secret " + secretName)
 
-	svc := secretmanager.NewFromConfig(aws_go.Conf)
-	key, err := svc.GetSecretValue(aws_go.Ctx, &secretmanager.GetSecretValueInput{
+	svc := secretsmanager.NewFromConfig(aws_go.Conf)
+	key, err := svc.GetSecretValue(aws_go.Ctx, &secretsmanager.GetSecretValueInput{
 		SecretId: aws.String(secretName),
 	})
 	if err != nil {
