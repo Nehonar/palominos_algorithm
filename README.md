@@ -9,3 +9,10 @@ docker build -t palominos_algorithm .
 ```bash
 docker run -p 8080:8080 palominos_algorithm
 ```
+
+## Compile
+```bash
+go build main.go
+del main.zip
+tar.exe -a -cf main.zip main
+```
