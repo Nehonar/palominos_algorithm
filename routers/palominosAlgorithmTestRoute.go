@@ -2,6 +2,7 @@ package routers
 
 import (
 	"context"
+	"fmt"
 	"io"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -17,6 +18,7 @@ func (rs *readSeeker) Seek(offset int64, whence int) (int64, error) {
 }
 
 func PalominosAlgotrithmTest(ctx context.Context, request events.APIGatewayProxyRequest) models.ApiResponse {
+	fmt.Println("We are in")
 
 	return models.ApiResponse{
 		Status:  200,
