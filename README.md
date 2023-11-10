@@ -14,5 +14,8 @@ docker run -p 8080:8080 palominos_algorithm
 ```bash
 go build main.go
 del main.zip
+// windows
 tar.exe -a -cf main.zip main
+// ubuntu
+zip -r main.zip main
 ```

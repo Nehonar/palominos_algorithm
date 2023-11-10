@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/nehonar/palominos_algorithm/jwt"
 	"github.com/nehonar/palominos_algorithm/models"
+	"github.com/nehonar/palominos_algorithm/public"
 	"github.com/nehonar/palominos_algorithm/routers"
 )
 
@@ -26,6 +27,20 @@ func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models
 	switch ctx.Value(models.Key("method")).(string) {
 	case "POST":
 		switch ctx.Value(models.Key("path")).(string) {
+		case "/index":
+			htmlContent, err := public.LoadIndexFile("palominos_algorithm/public/index.html")
+			if err != nil {
+				resp.Status = 500
+				resp.Message = "Invalid url "
+				return resp
+			}
+
+			resp.Status = 200
+			resp.CustomResp.Body = htmlContent
+			resp.CustomResp.Headers = map[string]string{
+				"Content-Type": "text/html",
+			}
+			return resp
 		case "palominosAlgotrithmTest":
 			return routers.PalominosAlgotrithmTest(ctx, request)
 		}

@@ -32,7 +32,7 @@ func lambdaStart(ctx context.Context, request events.APIGatewayProxyRequest) (*e
 		return resp, nil
 	}
 
-	path := strings.Replace(request.PathParameters["palominos_algorithm"], os.Getenv("UrlPrefix"), "", -1)
+	path := strings.Replace(request.PathParameters["palominosAlgorithm"], os.Getenv("UrlPrefix"), "", -1)
 
 	awsGo.Ctx = context.WithValue(awsGo.Ctx, models.Key("path"), path)
 	awsGo.Ctx = context.WithValue(awsGo.Ctx, models.Key("method"), request.HTTPMethod)
