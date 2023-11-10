@@ -10,7 +10,7 @@ import (
 	awsGo "github.com/nehonar/palominos_algorithm/awsGo"
 	"github.com/nehonar/palominos_algorithm/handlers"
 	"github.com/nehonar/palominos_algorithm/models"
-	secretManager "github.com/nehonar/palominos_algorithm/secretManager"
+	secretsManager "github.com/nehonar/palominos_algorithm/secretsManager"
 )
 
 func main() {
@@ -33,7 +33,7 @@ func lambdaStart(ctx context.Context, request events.APIGatewayProxyRequest) (*e
 		return resp, nil
 	}
 
-	SecretModel, err := secretManager.GetSecret(os.Getenv("SecretName"))
+	SecretModel, err := secretsManager.GetSecret(os.Getenv("SecretName"))
 	if err != nil {
 		resp = &events.APIGatewayProxyResponse{
 			StatusCode: 400,

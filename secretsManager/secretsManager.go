@@ -1,4 +1,4 @@
-package secretManager
+package secretsManager
 
 import (
 	"encoding/json"
