@@ -22,10 +22,10 @@ func ProcessToken(token string, JWTSign string) (*models.Claim, bool, string, er
 
 	token = strings.TrimSpace(splitToken[1])
 
-	parsed_token, err := jwt.ParseWithClaims(token, &claims, func(token *jwt.Token) (interface{}, error) {
+	parsedToken, err := jwt.ParseWithClaims(token, &claims, func(token *jwt.Token) (interface{}, error) {
 		return personal_key, nil
 	})
-	if !parsed_token.Valid {
+	if !parsedToken.Valid {
 		return &claims, false, string(""), errors.New("Invalid token")
 	}
 

@@ -1,30 +1,30 @@
-package secretmanager
+package secretManager
 
 import (
 	"encoding/json"
 	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
+	"github.com/aws/aws-sdk-go-v2/service/secretsManager"
 	aws_go "github.com/nehonar/palominos_algorithm/awsGo"
 	"github.com/nehonar/palominos_algorithm/models"
 )
 
 func GetSecret(secretName string) (models.Secret, error) {
-	var secret_data models.Secret
+	var secretData models.Secret
 	fmt.Println("> secret " + secretName)
 
-	svc := secretsmanager.NewFromConfig(aws_go.Conf)
-	key, err := svc.GetSecretValue(aws_go.Ctx, &secretsmanager.GetSecretValueInput{
+	svc := secretsManager.NewFromConfig(aws_go.Conf)
+	key, err := svc.GetSecretValue(aws_go.Ctx, &secretsManager.GetSecretValueInput{
 		SecretId: aws.String(secretName),
 	})
 	if err != nil {
 		fmt.Println(err.Error())
-		return secret_data, err
+		return secretData, err
 	}
 
-	json.Unmarshal([]byte(*key.SecretString), &secret_data)
+	json.Unmarshal([]byte(*key.SecretString), &secretData)
 	fmt.Println("> Read secret OK " + secretName)
 
-	return secret_data, nil
+	return secretData, nil
 }
