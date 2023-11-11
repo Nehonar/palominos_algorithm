@@ -1,29 +1,22 @@
-# Use the official Golang image as a parent image
-FROM golang:latest
+# Etapa de construcción: usar una imagen de Go
+FROM golang:1.16 as builder
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Go module and sum files into the container at /app
+# Copiar los archivos go.mod y go.sum e instalar las dependencias
 COPY go.mod go.sum ./
-
-# Download the Go dependencies
 RUN go mod download
 
-# Copy the rest of the code into the container at /app
-COPY / .
-
-# Testing
-RUN go test ./...
-
-# Copy all files
+# Copiar el código fuente
 COPY . .
 
-# Build the Go app
-RUN go build -o /palominos_algorithm ./
+# Compilar la aplicación para Linux (compilación cruzada)
+RUN CGO_ENABLED=0 GOOS=linux go build -o main ./
 
-# Expose port 8080 to the outside world
-EXPOSE 8080
+# Etapa de ejecución: usar la imagen base de Lambda
+FROM public.ecr.aws/lambda/go:1
 
-# Command to run the executable
-CMD ["/palominos_algorithm"]
+COPY --from=builder /app/main /var/task/main
+
+# Definir el comando de ejecución
+CMD ["./main"]
